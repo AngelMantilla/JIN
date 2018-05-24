@@ -1,0 +1,55 @@
+#include <iostream>
+#include <windows.h>
+#include <stdlib.h>
+#include <time.h>
+#include "Jin.h"
+#include "Tablero.h"
+#include "Pieza.h"
+
+using namespace std;
+const int TAM=8;
+const int TIME=1000;
+void color(int tono);
+
+int main() {
+	srand (time(NULL));
+	system("mode 100");
+
+	Usuario jug1,jug2;
+	Tablero *matriz[TAM][TAM];
+
+	cout<<"Jugador 1: "<<endl;
+	jug1.cargarDatos();
+	cout<<endl;
+	cout<<"Jugador 2: "<<endl;
+	jug2.cargarDatos();
+	cout<<endl;
+
+	system("cls");
+	for(int i=0; i<TAM; i++) { //ordenar piesas
+		for(int j=0; j<TAM; j++) {
+			matriz[i][j]=new Tablero();
+			matriz[i][j]=new Tablero(j,jug1.getcolor(),jug2.getcolor(),i,j);
+		}
+	}
+	ave();
+	pacman();
+	for(;;) {
+		int x,y;
+		for(int i=0,x=20; i<TAM; i++) {
+			for(int j=0,y=25; j<TAM; j++) {
+				gotoxy(x,y);
+				matriz[i][j]->mostrarCuadro(i,j,x,y);
+				y+=6;
+			}
+			x+=3;
+		}
+		Sleep(TIME);
+		int b=control(main);
+		if(b==1) {
+			break;
+		}
+	}
+	cin.get();
+	return 0;
+}
